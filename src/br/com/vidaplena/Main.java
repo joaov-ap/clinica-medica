@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         PacienteService pacienteService = new PacienteService();
         System.out.println("Bem Vindo a clínica Vida Plena.");
-        System.out.println(Validator.isDateValid("14052002"));
+        System.out.println(Validator.formatedDate("14052002"));
 
         // Teste CPF
         /*System.out.println(Validator.isCpfValid("145.382.206-20"));
@@ -19,7 +19,7 @@ public class Main {
 //        System.out.println(Validator.isEmailValid("zoro.123@hotmail.com"));
 //        System.out.println(Validator.isEmailValid("#!sanji@email.com.br"));
 
-        pacienteService.cadastrarPaciente();
+        pacienteService.testeArquivo();
 
     }
 }

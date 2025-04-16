@@ -1,6 +1,7 @@
 package br.com.vidaplena.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Paciente {
     private String nome;
@@ -48,13 +49,8 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return "Paciente{" +
-                "nome='" + nome + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", dataNascimento=" + dataNascimento +
-                ", sexo='" + sexo + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "Paciente" + "\nNome: " + this.nome + "\nCPF: "+ this.cpf + "\nTelefone: "
+                + this.telefone + "\nData de Nascimento: " + this.dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) +
+                "\nSexo: " + this.sexo + "\nEmail: " + this.email;
     }
 }
