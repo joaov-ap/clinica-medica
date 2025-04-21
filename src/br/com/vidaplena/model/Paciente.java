@@ -72,7 +72,7 @@ public class Paciente {
     }
 
     public String rawPaciente() {
-        return this.nome + ";"+ this.cpf + ";" + this.telefone + ";" + this.dataNascimento + ";" + this.sexo + ";" + this.email;
+        return this.nome + "\n"+ this.cpf + "\n" + this.telefone + "\n" + this.dataNascimento + "\n" + this.sexo + "\n" + this.email;
     }
 
     @Override

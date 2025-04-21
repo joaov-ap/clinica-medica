@@ -77,6 +77,7 @@ public class PacienteService {
 
         if (paciente != null) {
             System.out.println("Paciente " + paciente.getNome() + " deletado com sucesso.");
+            ArquivoUtils.deleteFile(paciente.getNome());
             pacientes.remove(paciente);
         }
     }
@@ -95,6 +96,7 @@ public class PacienteService {
             System.out.println("0 - Sair");
             System.out.print("Escolha oque deseja editar: ");
             int editInput = input.nextInt();
+            input.nextLine();
 
             switch (editInput) {
                 case 0:
@@ -132,6 +134,7 @@ public class PacienteService {
                 default:
                     System.out.println("Escolha inválida. Digite um número entre 1 e 6");
             }
+            ArquivoUtils.writePacienteFile(pacienteEscolhido);
         }
     }
 
@@ -158,6 +161,7 @@ public class PacienteService {
             System.out.println("4 - Prefiro não dizer");
             System.out.print("Escolha seu Genero: ");
             genero = input.nextInt();
+            input.nextLine();
 
             switch (genero) {
                 case 1:
@@ -208,5 +212,9 @@ public class PacienteService {
         } while ((userInput-1) > pacientes.size());
 
         return pacienteEscolhido;
+    }
+
+    public List<Paciente> getPacientes() {
+        return pacientes;
     }
 }
