@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class PacienteService {
     private List<Paciente> pacientes = new ArrayList<>();
     private final Scanner input = new Scanner(System.in);
+    private final String PACIENTES_FOLDER = "src/br/com/vidaplena/data";
 
     public void cadastrarPaciente() {
         System.out.print("Digite seu Nome: ");
@@ -50,7 +51,8 @@ public class PacienteService {
 
         Paciente paciente = new Paciente(nome, cpf, telefone, dataNasc, sexo, email);
         pacientes.add(paciente);
-        ArquivoUtils.writePacienteFile(paciente);
+        ArquivoUtils.writeFile(PACIENTES_FOLDER ,paciente, paciente.getNome());
+        System.out.println();
         System.out.println("Paciente: " + nome + ", cadastrado com sucesso.");
     }
 
@@ -64,8 +66,11 @@ public class PacienteService {
         System.out.println("Nenhum paciente cadastrado.");
     }
 
-    public void searchPacienteByCpf(String cpf) {
+    public void searchPacienteByCpf() {
         if (!pacientes.isEmpty()) {
+            System.out.print("Digite o CPF do Paciente: ");
+            String cpf = input.nextLine();
+            System.out.println();
             pacientes.stream().filter(p -> p.getCpf().equals(cpf)).forEach(System.out::println);
             return;
         }
@@ -75,11 +80,14 @@ public class PacienteService {
     public void deletePaciente() {
         Paciente paciente = pacienteSelector();
 
-        if (paciente != null) {
-            System.out.println("Paciente " + paciente.getNome() + " deletado com sucesso.");
-            ArquivoUtils.deleteFile(paciente.getNome());
-            pacientes.remove(paciente);
+        if (paciente == null) {
+            System.out.println("Paciente não encontrado.");
+            return;
         }
+
+        System.out.println("Paciente " + paciente.getNome() + " deletado com sucesso.");
+        ArquivoUtils.deleteFile(PACIENTES_FOLDER, paciente.getNome());
+        pacientes.remove(paciente);
     }
 
     public void editPaciente() {
@@ -134,7 +142,7 @@ public class PacienteService {
                 default:
                     System.out.println("Escolha inválida. Digite um número entre 1 e 6");
             }
-            ArquivoUtils.writePacienteFile(pacienteEscolhido);
+            ArquivoUtils.writeFile(PACIENTES_FOLDER ,pacienteEscolhido, pacienteEscolhido.getNome());
         }
     }
 

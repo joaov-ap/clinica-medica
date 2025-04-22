@@ -4,31 +4,25 @@ import br.com.vidaplena.model.Paciente;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ArquivoUtils {
-    private static final String PACIENTES_FOLDER = "src/br/com/vidaplena/data";
+    public static void writeFile(String folderPath, Object object, String fileName) {
+        File file = new File(folderPath, fileName.toUpperCase().replace(" ", "")+".txt");
 
-    public static void writePacienteFile(Paciente paciente) {
-        File arquivoPaciente = new File(PACIENTES_FOLDER, paciente.getNome().toUpperCase().replace(" ", "")+".txt");
-        File rawPacienteFile = new File(PACIENTES_FOLDER, "RAW-"+paciente.getNome().toUpperCase().replace(" ", "")+".txt");
-
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(arquivoPaciente));
-            BufferedWriter bufferedWriterRaw = new BufferedWriter(new FileWriter(rawPacienteFile))) {
-
-            arquivoPaciente.createNewFile();
-            rawPacienteFile.createNewFile();
-            bufferedWriter.write(paciente.toString());
-            bufferedWriterRaw.write(paciente.rawPaciente());
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
+            file.createNewFile();
+            bufferedWriter.write(object.toString());
             bufferedWriter.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void readPacienteFile(String nomePaciente) {
-        File arquivoPaciente = new File(PACIENTES_FOLDER, nomePaciente.toUpperCase().replace(" ","")+".txt");
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(arquivoPaciente))) {
+    public static void readFile(String folderPath, String fileName) {
+        File file = new File(folderPath, fileName.toUpperCase().replace(" ","")+".txt");
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String linha;
 
             while ((linha = bufferedReader.readLine()) != null) {
@@ -39,9 +33,10 @@ public class ArquivoUtils {
         }
     }
 
-    public static void readRawPacienteFile(List<Paciente> pacientes) {
-        File filesFolder = new File(PACIENTES_FOLDER);
-        String[] files = filesFolder.list((File, fileName) -> fileName.startsWith("RAW-"));
+    public static void readFileOnStart(String folderPath, List<Paciente> pacientes) {
+        File filesFolder = new File(folderPath);
+        String[] files = filesFolder.list();
+        String regex = "[\\w ]+: ";
 
         if (files.length == 0) {
             System.out.println("Nada para carregar.");
@@ -50,13 +45,14 @@ public class ArquivoUtils {
 
         for (String raw : files) {
             try(BufferedReader bufferedReader = new BufferedReader(new FileReader(filesFolder+"/"+raw))) {
-                String nome = bufferedReader.readLine();
-                String cpf = bufferedReader.readLine();
-                String telefone = bufferedReader.readLine();
-                String dataNascimento = bufferedReader.readLine();
-                String sexo = bufferedReader.readLine();
-                String email = bufferedReader.readLine();
-                pacientes.add(new Paciente(nome, cpf, telefone, LocalDate.parse(dataNascimento), sexo, email));
+                bufferedReader.readLine();
+                String nome = bufferedReader.readLine().replaceAll(regex, "");
+                String cpf = bufferedReader.readLine().replaceAll(regex, "");
+                String telefone = bufferedReader.readLine().replaceAll(regex, "");
+                String dataNascimento = bufferedReader.readLine().replaceAll(regex, "");
+                String sexo = bufferedReader.readLine().replaceAll(regex, "");
+                String email = bufferedReader.readLine().replaceAll(regex, "");
+                pacientes.add(new Paciente(nome, cpf, telefone, LocalDate.parse(dataNascimento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), sexo, email));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -65,15 +61,13 @@ public class ArquivoUtils {
         System.out.println("Pacientes Carregados.");
     }
 
-    public static void deleteFile(String nomePaciente) {
-        File arquivoPaciente = new File(PACIENTES_FOLDER, nomePaciente.toUpperCase().replace(" ","")+".txt");
-        File rawArquivoPaciente = new File(PACIENTES_FOLDER, "RAW-"+nomePaciente.toUpperCase().replace(" ","")+".txt");
-        if (!arquivoPaciente.exists()) {
+    public static void deleteFile(String folderPath, String fileName) {
+        File file = new File(folderPath, fileName.toUpperCase().replace(" ","")+".txt");
+        if (!file.exists()) {
             System.out.println("Arquivo inexistente.");
             return;
         }
-        arquivoPaciente.delete();
-        rawArquivoPaciente.delete();
+        file.delete();
     }
 
 }

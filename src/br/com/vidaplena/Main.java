@@ -10,7 +10,7 @@ public class Main {
         PacienteService pacienteService = new PacienteService();
         Scanner input = new Scanner(System.in);
         System.out.println("Bem Vindo a clínica Vida Plena.");
-        ArquivoUtils.readRawPacienteFile(pacienteService.getPacientes());
+        ArquivoUtils.readFileOnStart("src/br/com/vidaplena/data", pacienteService.getPacientes());
 
         int userInput;
 
@@ -46,9 +46,7 @@ public class Main {
                     pacienteService.showPacientes();
                     break;
                 case 5:
-                    System.out.print("Digite o CPF do Paciente: ");
-                    String cpf = input.nextLine();
-                    pacienteService.searchPacienteByCpf(cpf);
+                    pacienteService.searchPacienteByCpf();
                     break;
                 default:
                     System.out.println("Opcao Inválida.");
