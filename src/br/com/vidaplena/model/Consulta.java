@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 
 public class Consulta {
     private Paciente paciente;
-    private String nomeMedico;
-    private String especialidade;
+    private Medico medico;
+    private EspecialidadeMedico especialidade;
     private LocalDateTime dataHora;
 
     public Consulta() {
     }
 
-    public Consulta(Paciente paciente, String nomeMedico, String especialidade, LocalDateTime dataHora) {
+    public Consulta(Paciente paciente, Medico medico, EspecialidadeMedico especialidade, LocalDateTime dataHora) {
         this.paciente = paciente;
-        this.nomeMedico = nomeMedico;
+        this.medico = medico;
         this.especialidade = especialidade;
         this.dataHora = dataHora;
     }
@@ -22,8 +22,8 @@ public class Consulta {
     public String toString() {
         return "Consulta{" +
                 "paciente=" + paciente +
-                ", nomeMedico='" + nomeMedico + '\'' +
-                ", especialidade='" + especialidade + '\'' +
+                ", medico=" + medico +
+                ", especialidade=" + especialidade +
                 ", dataHora=" + dataHora +
                 '}';
     }
@@ -32,11 +32,11 @@ public class Consulta {
         return paciente;
     }
 
-    public String getNomeMedico() {
-        return nomeMedico;
+    public Medico getMedico() {
+        return medico;
     }
 
-    public String getEspecialidade() {
+    public EspecialidadeMedico getEspecialidade() {
         return especialidade;
     }
 
