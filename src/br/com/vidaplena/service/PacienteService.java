@@ -9,14 +9,59 @@ import br.com.vidaplena.util.Validator;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class PacienteService {
     private List<Paciente> pacientes = new ArrayList<>();
     private final Scanner input = new Scanner(System.in);
-    private final String PACIENTES_FOLDER = "src/br/com/vidaplena/data";
+    private final String PACIENTES_FOLDER = "src/br/com/vidaplena/data/pacientes";
 
-    public void cadastrarPaciente() {
+    public void menuPaciente() {
+        ArquivoUtils.readFileOnStart(PACIENTES_FOLDER, pacientes);
+        int userInput;
+
+        do {
+            System.out.println();
+            System.out.println("======== Menu de Pacientes ========");
+            System.out.println("1 - Cadastrar Paciente");
+            System.out.println("2 - Editar Paciente");
+            System.out.println("3 - Excluir Paciente");
+            System.out.println("4 - Listar Pacientes");
+            System.out.println("5 - Buscar Paciente por CPF");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha sua opcao: ");
+
+            userInput = input.nextInt();
+            input.nextLine();
+            System.out.println();
+
+            switch (userInput) {
+                case 0:
+                    System.out.println("Saindo...");
+                    break;
+                case 1:
+                    registerPaciente();
+                    break;
+                case 2:
+                    editPaciente();
+                    break;
+                case 3:
+                    deletePaciente();
+                    break;
+                case 4:
+                    showPacientes();
+                    break;
+                case 5:
+                    searchPacienteByCpf();
+                    break;
+                default:
+                    System.out.println("Opcao Inválida.");
+            }
+        } while (userInput != 0);
+    }
+
+    private void registerPaciente() {
         System.out.print("Digite seu Nome: ");
         String nome = input.nextLine();
 
@@ -56,7 +101,7 @@ public class PacienteService {
         System.out.println("Paciente: " + nome + ", cadastrado com sucesso.");
     }
 
-    public void showPacientes() {
+    private void showPacientes() {
         if (!pacientes.isEmpty()) {
             for (int i = 0; i < pacientes.size(); i++) {
                 System.out.println((i+1) + " - " + pacientes.get(i).getNome());
@@ -66,18 +111,19 @@ public class PacienteService {
         System.out.println("Nenhum paciente cadastrado.");
     }
 
-    public void searchPacienteByCpf() {
+    private void searchPacienteByCpf() {
         if (!pacientes.isEmpty()) {
             System.out.print("Digite o CPF do Paciente: ");
             String cpf = input.nextLine();
             System.out.println();
-            pacientes.stream().filter(p -> p.getCpf().equals(cpf)).forEach(System.out::println);
+            Optional<Paciente> paciente = pacientes.stream().filter(p -> p.getCpf().replaceAll("\\W", "").equals(cpf)).findFirst();
+            ArquivoUtils.readFile(PACIENTES_FOLDER, paciente.get().getNome());
             return;
         }
         System.out.println("Nenhum paciente cadastrado.");
     }
 
-    public void deletePaciente() {
+    private void deletePaciente() {
         Paciente paciente = pacienteSelector();
 
         if (paciente == null) {
@@ -90,7 +136,7 @@ public class PacienteService {
         pacientes.remove(paciente);
     }
 
-    public void editPaciente() {
+    private void editPaciente() {
         Paciente pacienteEscolhido = pacienteSelector();
 
         if (pacienteEscolhido != null) {
@@ -220,9 +266,5 @@ public class PacienteService {
         } while ((userInput-1) > pacientes.size());
 
         return pacienteEscolhido;
-    }
-
-    public List<Paciente> getPacientes() {
-        return pacientes;
     }
 }

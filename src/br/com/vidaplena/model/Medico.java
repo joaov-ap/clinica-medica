@@ -1,7 +1,6 @@
 package br.com.vidaplena.model;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class Medico {
     private String nome;
@@ -15,49 +14,59 @@ public class Medico {
 
     public Medico(String nome, String crm, List<EspecialidadeMedico> especialidades, String telefone, String email) {
         this.nome = nome;
-        if (!isCrmValid(crm)) {
-            throw new IllegalArgumentException("CRM Inválido.");
-        }
         this.crm = crm;
         this.especialidades = especialidades;
         this.telefone = telefone;
         this.email = email;
     }
 
-    private boolean isCrmValid(String crm) {
-        String regex = "^\\d{6}-\\d{2}\\/[A-Z]{2}$";
-        boolean matches = Pattern.matches(regex, crm);
-        return matches;
-    }
-
     @Override
     public String toString() {
-        return "Medico{" +
-                "nome='" + nome + '\'' +
-                ", crm='" + crm + '\'' +
-                ", especialidades=" + especialidades +
-                ", telefone='" + telefone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "Medico" +
+                "\nNome: " + this.nome +
+                "\nCRM: " + this.crm +
+                "\nEspecialidade(s): " + this.especialidades.toString().replaceAll("\\[]", "") + " " +
+                "\nTelefone: " + this.telefone +
+                "\nEmail: " + this.email;
     }
 
     public String getNome() {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getCrm() {
         return crm;
+    }
+
+    public void setCrm(String crm) {
+        this.crm = crm;
     }
 
     public List<EspecialidadeMedico> getEspecialidades() {
         return especialidades;
     }
 
+    public void setEspecialidades(List<EspecialidadeMedico> especialidades) {
+        this.especialidades = especialidades;
+    }
+
     public String getTelefone() {
         return telefone;
     }
 
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
