@@ -8,6 +8,7 @@ public class Medico {
     private List<EspecialidadeMedico> especialidades;
     private String telefone;
     private String email;
+    private List<Consulta> consultas;
 
     public Medico() {
     }
@@ -20,12 +21,17 @@ public class Medico {
         this.email = email;
     }
 
+    public Medico(String nome, String crm, List<EspecialidadeMedico> especialidades, String telefone, String email, List<Consulta> consultas) {
+        this(nome, crm, especialidades, telefone, email);
+        this.consultas = consultas;
+    }
+
     @Override
     public String toString() {
         return "Medico" +
                 "\nNome: " + this.nome +
                 "\nCRM: " + this.crm +
-                "\nEspecialidade(s): " + this.especialidades.toString().replaceAll("\\[]", "") + " " +
+                "\nEspecialidade(s): " + this.especialidades.toString() +
                 "\nTelefone: " + this.telefone +
                 "\nEmail: " + this.email;
     }
@@ -68,5 +74,9 @@ public class Medico {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Consulta> getConsultas() {
+        return consultas;
     }
 }

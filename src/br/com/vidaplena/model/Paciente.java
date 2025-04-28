@@ -71,10 +71,6 @@ public class Paciente {
         this.email = email;
     }
 
-    public String rawPaciente() {
-        return this.nome + "\n"+ this.cpf + "\n" + this.telefone + "\n" + this.dataNascimento + "\n" + this.sexo + "\n" + this.email;
-    }
-
     @Override
     public String toString() {
         return "Paciente" + "\nNome: " + this.nome + "\nCPF: "+ this.cpf + "\nTelefone: "

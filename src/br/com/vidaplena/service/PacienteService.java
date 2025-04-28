@@ -162,7 +162,7 @@ public class PacienteService {
                     pacienteEscolhido.setNome(nome);
                     break;
                 case 2:
-                    System.out.print("Digite o novo CPF: ");
+                    System.out.print("Digite o novo CPF (000.000.000-00 ou 00000000000): ");
                     String cpf = input.nextLine();
                     pacienteEscolhido.setCpf(cpf);
                     break;
@@ -266,5 +266,9 @@ public class PacienteService {
         } while ((userInput-1) > pacientes.size());
 
         return pacienteEscolhido;
+    }
+
+    public List<Paciente> getPacientes() {
+        return pacientes;
     }
 }

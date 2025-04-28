@@ -235,4 +235,8 @@ public class MedicoService {
         boolean matches = Pattern.matches(regex, crm);
         return matches;
     }
+
+    public List<Medico> getMedicos() {
+        return medicos;
+    }
 }
